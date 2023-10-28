@@ -1,4 +1,4 @@
-package com.example.rprt1z3;
+package com.example.zadatak3;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
