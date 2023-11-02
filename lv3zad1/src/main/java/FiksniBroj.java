@@ -13,7 +13,7 @@ public class FiksniBroj extends TelefonskiBroj{
             LJUBUSKI
     }
 
-    private Grad grad;
+    protected Grad grad;
     private String broj;
 
     public FiksniBroj(Grad grad, String broj) {

@@ -6,7 +6,7 @@ public class MobilniBroj extends TelefonskiBroj {
 
     public MobilniBroj(int mobilnaMreza, String broj) {
         this.mobilnaMreza = mobilnaMreza;
-        this.broj = 0 + mobilnaMreza + "/" + broj;
+        this.broj = String.format("03%d" , mobilnaMreza) + "/" + broj;
     }
 
     @Override
