@@ -1,7 +1,9 @@
 package com.example.lv4;
 
 
-public abstract class Laptop implements LaptopDao{
+import java.io.Serializable;
+
+public class Laptop implements Serializable {
     private String brend;
     private String model;
     private double cijena;

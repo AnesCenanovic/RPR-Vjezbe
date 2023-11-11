@@ -21,7 +21,10 @@ public class LaptopDaoJSONFile implements LaptopDao {
     @Override
     public void dodajLaptopUListu(Laptop laptop){
         this.laptopi = vratiPodatkeIzDatoteke(); // prvo vrati postojecu listu
-        laptopi.add(laptop);
+        if(laptopi.contains(laptop)==false){
+            laptopi.add(laptop);
+            dodajLaptopUFile(laptop);
+        }
     }
     @Override
     public Laptop getLaptop(String procesor){
@@ -35,16 +38,26 @@ public class LaptopDaoJSONFile implements LaptopDao {
     }
     @Override
     public ArrayList<Laptop> vratiPodatkeIzDatoteke(){
+
         ObjectMapper mapper = new ObjectMapper();
         ArrayList<Laptop> result = new ArrayList<>();
-        try { result = mapper.readValue(file, new TypeReference<ArrayList<Laptop>>() {}); {
-        }
-        }
-        catch (IOException except){
-            except.printStackTrace();
+
+        if(file.exists() && file.length()>0){
+            try { result = mapper.readValue(file, new TypeReference<ArrayList<Laptop>>() {});
+
+            }
+            catch (IOException except){
+                except.printStackTrace();
+            }
         }
         return result;
     }
+
+    @Override
+    public void napuniListu(ArrayList<Laptop> laptopi) {
+        this.laptopi = laptopi;
+    }
+
     @Override
     public void dodajLaptopUFile(Laptop laptop){
         this.laptopi = vratiPodatkeIzDatoteke(); // prvo vrati postojecu listu

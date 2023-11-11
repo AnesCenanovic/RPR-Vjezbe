@@ -19,7 +19,12 @@ public class LaptopDaoXMLFile implements LaptopDao{
     public void dodajLaptopUListu(Laptop laptop){
         this.laptopi = vratiPodatkeIzDatoteke(); // prvo vrati postojecu listu
         laptopi.add(laptop);
+        if(laptopi.contains(laptop)==false){
+            laptopi.add(laptop);
+            dodajLaptopUFile(laptop);
+        }
     }
+
     @Override
     public Laptop getLaptop(String procesor){
         this.laptopi = vratiPodatkeIzDatoteke();
@@ -34,13 +39,21 @@ public class LaptopDaoXMLFile implements LaptopDao{
     public ArrayList<Laptop> vratiPodatkeIzDatoteke(){
         XmlMapper mapper = new XmlMapper();
         ArrayList<Laptop> result = new ArrayList<>();
-        try { result = mapper.readValue(file,result.getClass());
-        }
-        catch (IOException except){
-            except.printStackTrace();
+        if(file.exists() && file.length()>0){
+            try { result = mapper.readValue(file,result.getClass());
+            }
+            catch (IOException except){
+                except.printStackTrace();
+            }
         }
         return result;
     }
+
+    @Override
+    public void napuniListu(ArrayList<Laptop> laptopi) {
+        this.laptopi = laptopi;
+    }
+
     @Override
     public void dodajLaptopUFile(Laptop laptop){
         this.laptopi = vratiPodatkeIzDatoteke(); // prvo vrati postojecu listu
