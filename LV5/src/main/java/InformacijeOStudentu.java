@@ -1,4 +1,4 @@
-public class InformacijeOStudentu extends LicneInformacije implements Informacije{
+public class InformacijeOStudentu extends LicneInformacije implements Informacije ,MozeOcijeniti{
 
     private String godinaStudija;
     private String brojIndexa;
@@ -13,6 +13,11 @@ public class InformacijeOStudentu extends LicneInformacije implements Informacij
     @Override
     public String predstavi(){
         return getIme() + " " + getPrezime() + " " + getGodinaStudija() + " " + getBrojIndexa();
+    }
+    @Override
+    public Ocjena ocijeni(int x){
+        LicneInformacije osoba = new LicneInformacije(this.getIme(),this.getPrezime());
+        return new Ocjena(osoba,x);
     }
 
     public String getGodinaStudija(){

@@ -15,11 +15,33 @@ public class Program {
         listaInformacija.add(informacijeONastavniku);
         listaInformacija.add(predmet);
 
+        Ocjena ocjena1 = new Ocjena(informacijeOStudentu,6);
+        Ocjena ocjena2 = new Ocjena(informacijeONastavniku,6);
+        Ocjena ocjena3 = new Ocjena(informacijeOStudentu,8);
+
+        ArrayList<Ocjena> ocjene = new ArrayList<>();
+        ocjene.add(ocjena1);
+        ocjene.add(ocjena2);
+        ocjene.add(ocjena3);
+
+        for(Ocjena a : ocjene){
+            if(a instanceof MozeOcijeniti){
+                informacijeONastavniku.setOcjene(a);
+                predmet.setOcjene(a);
+            }
+            else{
+                predmet.setOcjene(a);
+            }
+        }
+
+
+
         KolekcijaPoruka kolekcijaPoruka = new KolekcijaPoruka(listaInformacija);
         List<Informacije> porukeIzKolekcije = kolekcijaPoruka.getPoruke();
 
         for (Informacije poruka : porukeIzKolekcije) {
             System.out.println(poruka.predstavi());
         }
+
     }
 }
