@@ -18,6 +18,14 @@ public class User {
         this.korisnickoIme = new SimpleStringProperty();
         this.password = new SimpleStringProperty();
     }
+
+    public User(String ime,String prezime,String email, String korisnickoIme, String password) {
+        this.ime = new SimpleStringProperty(ime);
+        this.prezime = new SimpleStringProperty(prezime);
+        this.email = new SimpleStringProperty(email);
+        this.korisnickoIme = new SimpleStringProperty(korisnickoIme);
+        this.password = new SimpleStringProperty(password);
+    }
         // Getter and setter methods for ime
         public String getIme() {
             return ime.get();
@@ -88,5 +96,6 @@ public class User {
         public String toString() {
             return String.format("%s %s", getIme(), getPrezime());
         }
+
     }
 

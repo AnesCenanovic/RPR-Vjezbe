@@ -3,6 +3,8 @@ package com.example.lv78;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -27,78 +29,65 @@ public class HelloController {
 
     @FXML
     private PasswordField passwordField;
-    
 
-    private SimpleStringProperty imeProperty = new SimpleStringProperty();
-    private SimpleStringProperty prezimeProperty = new SimpleStringProperty();
-    private SimpleStringProperty emailProperty = new SimpleStringProperty();
-    private SimpleStringProperty korisnickoImeProperty = new SimpleStringProperty();
-    private SimpleStringProperty passwordProperty = new SimpleStringProperty();
+    private UserModel model;
 
-    public HelloController() {
-         imeProperty = new SimpleStringProperty("");
-         prezimeProperty = new SimpleStringProperty("");
-         emailProperty = new SimpleStringProperty("");
-         korisnickoImeProperty = new SimpleStringProperty("");
-         passwordProperty = new SimpleStringProperty("");
+    public HelloController(UserModel m) {
+        this.model = m;
+
     }
 
-    public SimpleStringProperty imeProperty() {
-        return  imeProperty;
-    }
-    public String getsImeProperty() {
-        return  imeProperty.get();
-    }
-    public SimpleStringProperty prezimeProperty() {
-        return  prezimeProperty;
-    }
-    public String getsPrezimeProperty() {
-        return  prezimeProperty.get();
-    }
-    public SimpleStringProperty emailProperty() {
-        return imeProperty;
-    }
-    public String getsEmailProperty() {
-        return  emailProperty.get();
-    }
-    public SimpleStringProperty korisnickoImeProperty() {
-        return  korisnickoImeProperty;
-    }
-    public String getsKorisnickoImeProperty() {
-        return  korisnickoImeProperty.get();
-    }
-    public SimpleStringProperty passwordProperty() {
-        return  passwordProperty;
-    }
-    public String getsPasswordProperty() {
-        return  passwordProperty.get();
-    }
+
+
+
 
     @FXML
     protected void initialize() {
 
-        userListView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                       User selectedUser = (User) newValue;
-                        imeProperty.set(selectedUser.getIme());
-                        prezimeProperty.set(selectedUser.getPrezime());
-                        emailProperty.set(selectedUser.getEmail());
-                        korisnickoImeProperty.set(selectedUser.getKorisnickoIme());
-                        passwordProperty.set(selectedUser.getPassword());
-                    }
-                }
-        );
-        // Bind the text fields bidirectionally to the corresponding properties
-        Bindings.bindBidirectional(imeField.textProperty(), imeProperty);
-        Bindings.bindBidirectional(prezimeField.textProperty(), prezimeProperty);
-        Bindings.bindBidirectional(emailField.textProperty(), emailProperty);
-        Bindings.bindBidirectional(korisnickoImeField.textProperty(), korisnickoImeProperty);
-        Bindings.bindBidirectional(passwordField.textProperty(), passwordProperty);
+        userListView.setItems(model.getUsers());
+        imeField.textProperty().bindBidirectional(model.getTrenutniUser().imeProperty());
+        prezimeField.textProperty().bindBidirectional(model.getTrenutniUser().prezimeProperty());
+        emailField.textProperty().bindBidirectional(model.getTrenutniUser().emailProperty());
+        korisnickoImeField.textProperty().bindBidirectional(model.getTrenutniUser().korisnickoImeProperty());
+        passwordField.textProperty().bindBidirectional(model.getTrenutniUser().passwordProperty());
+
+        userListView.getSelectionModel().selectedItemProperty().addListener((obs, oldKorisnik, newKorisnik) -> {
+            System.out.println("Listener triggered. New User: " + newKorisnik);
+            model.setTrenutniUser(newKorisnik);
+            System.out.println("User ime: " + model.getTrenutniUser().getIme());
+            userListView.refresh();
+        });
+
+        model.trenutniUserProperty().addListener((obs, oldUser, newUser) -> {
+            if (oldUser != null) {
+                System.out.println("Unbinding from: " + oldUser.getIme());
+                imeField.textProperty().unbindBidirectional(oldUser.imeProperty() );
+                prezimeField.textProperty().unbindBidirectional(oldUser.prezimeProperty() );
+                emailField.textProperty().unbindBidirectional(oldUser.emailProperty() );
+                korisnickoImeField.textProperty().unbindBidirectional(oldUser.korisnickoImeProperty() );
+                passwordField.textProperty().unbindBidirectional(oldUser.passwordProperty() );
+            }
+            if (newUser == null) {
+                imeField.setText("");
+                passwordField.setText("");
+                prezimeField.setText("");
+                emailField.setText("");
+                korisnickoImeField.setText("");
+            }
+            else {
+                System.out.println("Binding to: " + newUser.getIme());
+                imeField.textProperty().bindBidirectional(newUser.imeProperty() );
+                prezimeField.textProperty().bindBidirectional(newUser.prezimeProperty() );
+                emailField.textProperty().bindBidirectional(newUser.emailProperty() );
+                korisnickoImeField.textProperty().bindBidirectional(newUser.korisnickoImeProperty() );
+                passwordField.textProperty().bindBidirectional(newUser.passwordProperty() );
+            }
+        });
     }
 
     @FXML
     protected void onDodajButtonClick() {
+        clearInputFields();
         String ime = imeField.getText();
         String prezime = prezimeField.getText();
         String email = emailField.getText();
@@ -113,7 +102,7 @@ public class HelloController {
             user.setEmail(email);
             user.setKorisnickoIme(korisnickoIme);
             user.setPassword(password);
-            userListView.getItems().add(user);
+            model.addUser(user);
             clearInputFields();
         }
     }
