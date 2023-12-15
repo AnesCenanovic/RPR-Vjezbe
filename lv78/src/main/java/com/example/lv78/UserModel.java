@@ -25,8 +25,20 @@ public class UserModel {
         return users;
     }
 
-    public void addUser (User user){
-        users.add(user);
+    public void addUser(User user) {
+        boolean userExists = false;
+        for (User existingUser : users) {
+            System.out.println("Comparing: " + existingUser + " with " + user);
+            if (existingUser == user) {
+                userExists = true;
+                break;
+            }
+        }
+
+        if (!userExists) {
+            System.out.println("Adding user: " + user);
+            users.add(user);
+        }
     }
     void napuni() {
         users.add(new User("Tyler","Joseph", "tylerj@gmail.com", "MAIN_SINGER", "joshyouareoutoftheband"));

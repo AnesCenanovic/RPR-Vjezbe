@@ -55,7 +55,6 @@ public class HelloController {
             System.out.println("Listener triggered. New User: " + newKorisnik);
             model.setTrenutniUser(newKorisnik);
             System.out.println("User ime: " + model.getTrenutniUser().getIme());
-            userListView.refresh();
         });
 
         model.trenutniUserProperty().addListener((obs, oldUser, newUser) -> {
@@ -68,14 +67,13 @@ public class HelloController {
                 passwordField.textProperty().unbindBidirectional(oldUser.passwordProperty() );
             }
             if (newUser == null) {
-                imeField.setText("");
-                passwordField.setText("");
-                prezimeField.setText("");
-                emailField.setText("");
-                korisnickoImeField.setText("");
+                clearInputFields();
             }
             else {
                 System.out.println("Binding to: " + newUser.getIme());
+
+
+
                 imeField.textProperty().bindBidirectional(newUser.imeProperty() );
                 prezimeField.textProperty().bindBidirectional(newUser.prezimeProperty() );
                 emailField.textProperty().bindBidirectional(newUser.emailProperty() );
@@ -87,7 +85,6 @@ public class HelloController {
 
     @FXML
     protected void onDodajButtonClick() {
-        clearInputFields();
         String ime = imeField.getText();
         String prezime = prezimeField.getText();
         String email = emailField.getText();
@@ -96,14 +93,12 @@ public class HelloController {
 
         // Check if all fields are filled
         if (!ime.isEmpty() && !prezime.isEmpty() && !email.isEmpty() && !korisnickoIme.isEmpty() && !password.isEmpty()) {
-            User user = new User();
-            user.setIme(ime);
-            user.setPrezime(prezime);
-            user.setEmail(email);
-            user.setKorisnickoIme(korisnickoIme);
-            user.setPassword(password);
-            model.addUser(user);
-            clearInputFields();
+            User newUser = new User(ime,prezime,email,korisnickoIme,password);
+                model.addUser(newUser);
+                model.setTrenutniUser(newUser);
+                userListView.refresh();
+                System.out.println(model.size());
+                clearInputFields();
         }
     }
         private void clearInputFields() {

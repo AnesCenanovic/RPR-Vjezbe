@@ -3,6 +3,8 @@ package com.example.lv78;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Objects;
+
 public class User {
     private  StringProperty ime;
     private  StringProperty prezime;
@@ -96,6 +98,28 @@ public class User {
         public String toString() {
             return String.format("%s %s", getIme(), getPrezime());
         }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+        return Objects.equals(getIme(), other.getIme())
+                && Objects.equals(getPrezime(), other.getPrezime())
+                && Objects.equals(getEmail(), other.getEmail())
+                && Objects.equals(getKorisnickoIme(), other.getKorisnickoIme())
+                && Objects.equals(getPassword(), other.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIme(), getPrezime(), getEmail(), getKorisnickoIme(), getPassword());
+    }
 
     }
 
