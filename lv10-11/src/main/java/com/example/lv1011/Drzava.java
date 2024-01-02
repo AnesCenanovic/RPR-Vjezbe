@@ -20,6 +20,8 @@ public class Drzava {
         setNaziv(naziv);
         setGlavniGrad(glavniGrad);
         drzavaList.add(this);
+        System.out.println("Dodana");
+        System.out.println(drzavaList.size());
     }
 
     public Drzava() {

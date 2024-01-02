@@ -20,14 +20,14 @@
          </padding>
       </TableView>
       <VBox prefHeight="400.0" prefWidth="115.0">
-          <Button fx:id="dodajGradButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Dodaj grad">
+          <Button fx:id="dodajGradButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Dodaj grad" onAction="#handleDodajGradButtonClick">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Button>
-          <Button fx:id="dodajDrzavuButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="105.0" text="Dodaj državu">
+          <Button fx:id="dodajDrzavuButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="105.0" text="Dodaj državu" onAction="#handleDodajDrzavuButtonClick">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>

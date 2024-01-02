@@ -3,9 +3,15 @@ package com.example.lv1011;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class GlavnaController {
 
@@ -39,9 +45,32 @@ public class GlavnaController {
         stanovnikaColumn.setCellValueFactory(cellData -> cellData.getValue().brojStanovnikaProperty().asObject());
         drzavaColumn.setCellValueFactory(cellData -> cellData.getValue().drzavaProperty());
 
-        gradList.setAll(Grad.getGradList());
+        gradList.addAll(Grad.getGradList());
 
         tableView.setItems(gradList);
+    }
+
+    @FXML
+    private void handleDodajGradButtonClick() {
+        openAddForm("grad.fxml", "Dodaj Grad");
+    }
+
+    @FXML
+    private void handleDodajDrzavuButtonClick() {
+        openAddForm("drzava.fxml", "Dodaj Državu");
+    }
+
+    private void openAddForm(String fxmlFileName, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(title);
+            stage.setScene(new Scene(loader.load()));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

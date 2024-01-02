@@ -32,6 +32,8 @@ public class Grad {
         setBrojStanovnika(brojStanovnika);
         setDrzava(drzava);
         gradList.add(this);
+        System.out.println("Dodan");
+        System.out.println(gradList.size());
     }
 
     public Grad(){
@@ -93,5 +95,10 @@ public class Grad {
 
     public static List<Grad> getGradList() {
         return gradList;
+    }
+
+    @Override
+    public String toString() {
+        return getNaziv();
     }
 }

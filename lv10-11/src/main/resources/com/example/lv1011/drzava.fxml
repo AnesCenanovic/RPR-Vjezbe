@@ -49,11 +49,11 @@
       </HBox>
       <ButtonBar prefHeight="0.0" prefWidth="265.0">
         <buttons>
-          <Button minWidth="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" fx:id="okButton" styleClass="confirm-button" text="Ok">
+          <Button minWidth="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" fx:id="okButton" styleClass="confirm-button" text="Ok" onAction="#handleOkButtonClick">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding></Button>
-            <Button mnemonicParsing="false" text="Cancel" fx:id="cancelButton">
+            <Button mnemonicParsing="false" text="Cancel" fx:id="cancelButton" onAction="#handleCancelButtonClick">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding></Button>
