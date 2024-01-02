@@ -1,19 +1,37 @@
 package com.example.lv1011;
 
+import javafx.beans.property.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Grad {
 
-    private int id;
-    private String naziv;
-    private int brojStanovnika;
-    private Drzava drzava;
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty naziv = new SimpleStringProperty();
+    private final IntegerProperty brojStanovnika = new SimpleIntegerProperty();
+    private final ObjectProperty<Drzava> drzava = new SimpleObjectProperty<>();
+
+    private static final List<Grad> gradList = new ArrayList<>();
+
+    static {
+        new Grad(1, "Grad1", 100000, new Drzava(1, "Drzava1", null));
+        new Grad(2, "Grad2", 150000, new Drzava(2, "Drzava2", null));
+        new Grad(3, "Grad3", 250000, new Drzava(3, "Drzava3", null));
+        new Grad(4, "Grad4", 350000, new Drzava(3, "Drzava3", null));
+        new Grad(5, "Grad5", 450000, new Drzava(4, "Drzava4", null));
+
+        // Add more predefined values as needed
+    }
 
     // Constructors
 
     public Grad(int id, String naziv, int brojStanovnika, Drzava drzava){
-        this.id = id;
-        this.naziv = naziv;
-        this.brojStanovnika = brojStanovnika;
-        this.drzava = drzava;
+        setId(id);
+        setNaziv(naziv);
+        setBrojStanovnika(brojStanovnika);
+        setDrzava(drzava);
+        gradList.add(this);
     }
 
     public Grad(){
@@ -22,37 +40,58 @@ public class Grad {
     // Getters
 
     public int getId() {
-        return id;
+        return id.get();
     }
 
     public String getNaziv() {
-        return naziv;
+        return naziv.get();
     }
 
     public int getBrojStanovnika() {
-        return brojStanovnika;
+        return brojStanovnika.get();
     }
 
     public Drzava getDrzava() {
-        return drzava;
+        return drzava.get();
     }
 
     // Setters
 
     public void setId(int id) {
-        this.id = id;
+        this.id.set(id);
     }
 
     public void setNaziv(String naziv) {
-        this.naziv = naziv;
+        this.naziv.set(naziv);
     }
 
     public void setBrojStanovnika(int brojStanovnika) {
-        this.brojStanovnika = brojStanovnika;
+        this.brojStanovnika.set(brojStanovnika);
     }
+
+    // JavaFX property accessors
 
     public void setDrzava(Drzava drzava) {
-        this.drzava = drzava;
+        this.drzava.set(drzava);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public StringProperty nazivProperty() {
+        return naziv;
+    }
+
+    public IntegerProperty brojStanovnikaProperty() {
+        return brojStanovnika;
+    }
+
+    public ObjectProperty<Drzava> drzavaProperty() {
+        return drzava;
+    }
+
+    public static List<Grad> getGradList() {
+        return gradList;
     }
 }
-

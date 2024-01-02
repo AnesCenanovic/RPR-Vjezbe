@@ -1,0 +1,12 @@
+/* styles.css */
+
+.confirm-button {
+    -fx-background-color: #007bff; /* Blue background color */
+    -fx-border-color: #007bff; /* Blue border color */
+    -fx-text-fill: white; /* White text color */
+}
+
+.confirm-button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+    -fx-border-color: #0056b3; /* Darker blue border on hover */
+}

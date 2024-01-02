@@ -1,47 +1,77 @@
 package com.example.lv1011;
 
+import javafx.beans.property.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Drzava {
 
-    private int id;
-    private String naziv;
-    private Grad glavniGrad;
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty naziv = new SimpleStringProperty();
+    private final ObjectProperty<Grad> glavniGrad = new SimpleObjectProperty<>();
+
+    private static final List<Drzava> drzavaList = new ArrayList<>();
 
     // Constructors
 
     public Drzava(int id, String naziv, Grad glavniGrad) {
-        this.id = id;
-        this.naziv = naziv;
-        this.glavniGrad = glavniGrad;
+        setId(id);
+        setNaziv(naziv);
+        setGlavniGrad(glavniGrad);
+        drzavaList.add(this);
     }
 
     public Drzava() {
     }
 
-    // Getters
+    // Getters for JavaFX properties
 
     public int getId() {
-        return id;
+        return id.get();
     }
 
     public String getNaziv() {
-        return naziv;
+        return naziv.get();
     }
 
     public Grad getGlavniGrad() {
-        return glavniGrad;
+        return glavniGrad.get();
     }
 
-    // Setters
+    // Setters for JavaFX properties
 
     public void setId(int id) {
-        this.id = id;
+        this.id.set(id);
     }
 
     public void setNaziv(String naziv) {
-        this.naziv = naziv;
+        this.naziv.set(naziv);
     }
 
     public void setGlavniGrad(Grad glavniGrad) {
-        this.glavniGrad = glavniGrad;
+        this.glavniGrad.set(glavniGrad);
+    }
+
+    // JavaFX property accessors
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public StringProperty nazivProperty() {
+        return naziv;
+    }
+
+    public ObjectProperty<Grad> glavniGradProperty() {
+        return glavniGrad;
+    }
+
+    public static List<Drzava> getDrzavaList() {
+        return drzavaList;
+    }
+    @Override
+    public String toString() {
+        return getNaziv();
     }
 }

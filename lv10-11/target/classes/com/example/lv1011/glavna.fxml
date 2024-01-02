@@ -5,15 +5,15 @@
 <?import javafx.scene.layout.*?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lv1011.GlavnaController">
-      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="475.0" >
+      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="475.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="100.0" text="Naziv" />
-            <TableColumn prefWidth="150.0" text="Stanovnika" />
-            <TableColumn prefWidth="150.0" text="Država" />
+          <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="nazivColumn" prefWidth="100.0" text="Naziv" />
+            <TableColumn fx:id="stanovnikaColumn" prefWidth="150.0" text="Stanovnika" />
+            <TableColumn fx:id="drzavaColumn" prefWidth="150.0" text="Država" />
         </columns>
          <HBox.margin>
-            <Insets />
+            <Insets bottom="5.0" left="5.0" top="5.0" />
          </HBox.margin>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
