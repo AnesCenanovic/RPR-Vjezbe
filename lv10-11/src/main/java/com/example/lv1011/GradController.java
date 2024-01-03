@@ -1,5 +1,6 @@
 package com.example.lv1011;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -12,8 +13,12 @@ public class GradController {
     @FXML
     private TextField nazivTextField;
 
+    private SimpleStringProperty naziv;
+
     @FXML
     private TextField brojStanovnikaTextField;
+
+    private SimpleStringProperty brojStanovnika;
 
     @FXML
     private ChoiceBox<Drzava> drzavaChoiceBox;
@@ -26,9 +31,17 @@ public class GradController {
 
     private Grad grad;
 
+    public GradController() {
+        naziv = new SimpleStringProperty("");
+        brojStanovnika = new SimpleStringProperty("");
+    }
+
     public void initialize() {
         drzavaChoiceBox.getItems().addAll(Drzava.getDrzavaList());
         drzavaChoiceBox.getSelectionModel().selectFirst();
+
+        nazivTextField.textProperty().bindBidirectional(naziv);
+        brojStanovnikaTextField.textProperty().bindBidirectional(brojStanovnika);
     }
 
     @FXML
@@ -39,15 +52,26 @@ public class GradController {
         if (!naziv.isEmpty() && isNumeric(brojStanovnikaString)) {
             int brojStanovnika = Integer.parseInt(brojStanovnikaString);
             Drzava selectedDrzava = drzavaChoiceBox.getValue();
-            grad = new Grad(1,naziv,brojStanovnika,selectedDrzava);
+
+            if (grad != null) {
+                // If grad is not null, we are editing an existing instance
+                grad.setNaziv(naziv);
+                grad.setBrojStanovnika(brojStanovnika);
+                grad.setDrzava(selectedDrzava);
+            } else {
+                // grad is null, so we are adding a new instance
+                grad = new Grad(1, naziv, brojStanovnika, selectedDrzava);
+            }
+
             closeStage();
         } else {
             // Handle invalid input
         }
     }
+
     @FXML
     private void handleCancelButtonClick() {
-        grad = null; // Set grad to null to indicate cancellation
+        grad = null;
         closeStage();
     }
     public Grad getGrad() {
@@ -60,6 +84,14 @@ public class GradController {
 
     private boolean isNumeric(String str) {
         return str.matches("\\d+");
+    }
+
+    public void initializeWithGrad(Grad gradEdit) {
+        // Initialize the form fields with data from the provided Grad instance
+        nazivTextField.setText(gradEdit.getNaziv());
+        brojStanovnikaTextField.setText(String.valueOf(gradEdit.getBrojStanovnika()));
+        drzavaChoiceBox.setValue(gradEdit.getDrzava());
+        grad = gradEdit;
     }
 
 }

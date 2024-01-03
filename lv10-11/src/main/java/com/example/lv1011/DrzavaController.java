@@ -1,5 +1,9 @@
 package com.example.lv1011;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -10,6 +14,8 @@ public class DrzavaController {
 
     @FXML
     private TextField nazivTextField;
+
+    private SimpleStringProperty naziv;
 
     @FXML
     private ChoiceBox<Grad> glavniGradChoiceBox;
@@ -22,9 +28,16 @@ public class DrzavaController {
 
     private Drzava drzava;
 
+    public DrzavaController() {
+        naziv = new SimpleStringProperty("");
+    }
+
+
     public void initialize() {
         glavniGradChoiceBox.getItems().addAll(Grad.getGradList());
         glavniGradChoiceBox.getSelectionModel().selectFirst();
+
+        nazivTextField.textProperty().bindBidirectional(naziv);
     }
 
     @FXML

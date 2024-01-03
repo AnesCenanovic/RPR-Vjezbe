@@ -6,6 +6,13 @@
     -fx-text-fill: white; /* White text color */
 }
 
+.cancel-button {
+    -fx-background-color: #ff0000; /* Red background color */
+    -fx-border-color: #ff0000; /* Red border color */
+    -fx-text-fill: white; /* White text color */
+}
+
+
 .confirm-button:hover {
     -fx-background-color: #0056b3; /* Darker blue on hover */
     -fx-border-color: #0056b3; /* Darker blue border on hover */

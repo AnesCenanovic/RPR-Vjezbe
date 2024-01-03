@@ -1,5 +1,7 @@
 package com.example.lv1011;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,6 +39,7 @@ public class GlavnaController {
     private TableColumn<Grad, Drzava> drzavaColumn;
 
     private final ObservableList<Grad> gradList = FXCollections.observableArrayList();
+    private final ObjectProperty<Grad> selectedGrad = new SimpleObjectProperty<>();
 
     @FXML
     private void initialize() {
@@ -45,32 +48,84 @@ public class GlavnaController {
         stanovnikaColumn.setCellValueFactory(cellData -> cellData.getValue().brojStanovnikaProperty().asObject());
         drzavaColumn.setCellValueFactory(cellData -> cellData.getValue().drzavaProperty());
 
-        gradList.addAll(Grad.getGradList());
+        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
+            selectedGrad.set(newValue);
+        });
 
+
+        gradList.addAll(Grad.getGradList());
         tableView.setItems(gradList);
     }
 
     @FXML
     private void handleDodajGradButtonClick() {
-        openAddForm("grad.fxml", "Dodaj Grad");
+        openAddForm("grad.fxml", "Dodaj Grad",null);
     }
 
     @FXML
     private void handleDodajDrzavuButtonClick() {
-        openAddForm("drzava.fxml", "Dodaj Državu");
+        openAddForm("drzava.fxml", "Dodaj Državu",null);
     }
 
-    private void openAddForm(String fxmlFileName, String title) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle(title);
-            stage.setScene(new Scene(loader.load()));
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void openAddForm(String fxmlFileName, String title, Grad grad) {
+        if(grad == null){ //Dodavanje novog grada
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle(title);
+                stage.setScene(new Scene(loader.load()));
+                stage.showAndWait();
+                gradList.setAll(Grad.getGradList());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{ //Izmjena postojećeg
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle(title);
+                stage.setScene(new Scene(loader.load()));
+                GradController gradController = loader.getController();
+                gradController.initializeWithGrad(grad); //Popunjavanje gotovim podacima
+                stage.showAndWait();
+                gradList.setAll(Grad.getGradList());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    @FXML
+    private void handleIzmijeniGradButtonClick() {
+
+        Grad selected = selectedGrad.get();
+
+        if (selected != null) {
+            // Fill the form fields with the selected Grad's data
+
+            openAddForm("grad.fxml", "Izmijeni Grad",selected);
+        } else {
+            // Handle no selection
+        }
+    }
+
+    @FXML
+    private void handleObrisiGradButtonClick() {
+        Grad selected = selectedGrad.get();
+
+        if (selected != null) {
+            gradList.remove(selected);
+            Grad.getGradList().remove(selected);
+            gradList.setAll(Grad.getGradList());
+
+        } else {
+            // Handle no selection
+        }
+    }
+
+
 
 }

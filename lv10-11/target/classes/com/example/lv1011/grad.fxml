@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lv1011.GradController">
+<VBox stylesheets="@styles.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lv1011.GradController">
     <children>
         <HBox prefHeight="100.0" prefWidth="200.0">
             <VBox prefHeight="130.0" prefWidth="140.0">
@@ -70,7 +70,7 @@
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding></Button>
-                <Button mnemonicParsing="false" fx:id="cancelButton" text="Cancel" onAction="#handleCancelButtonClick">
+                <Button mnemonicParsing="false" fx:id="cancelButton" text="Cancel" styleClass="cancel-button" onAction="#handleCancelButtonClick">
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding></Button>
