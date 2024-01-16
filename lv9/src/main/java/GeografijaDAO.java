@@ -42,7 +42,7 @@ public class GeografijaDAO {
             odrediIdGradUpit = conn.prepareStatement("SELECT MAX(id)+1 FROM grad");
             dodajDrzavuUpit = conn.prepareStatement("INSERT INTO drzava VALUES(?,?,?)");
             odrediIdDrzaveUpit = conn.prepareStatement("SELECT MAX(id)+1 FROM drzava");
-            promijeniGradUpit = conn.prepareStatement("UPDATE grad SET naziv=?, broj_stanovnika=?, drzava=?, WHERE id=?");
+            promijeniGradUpit = conn.prepareStatement("UPDATE grad SET naziv=?, broj_stanovnika=?, drzava=? WHERE id=?");
             dajGradUpit = conn.prepareStatement("SELECT * from grad WHERE id=?");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,7 +139,7 @@ public class GeografijaDAO {
         ArrayList<Grad> rezultat = new ArrayList();
         try {
             ResultSet res = dajGradoveUpit.executeQuery();
-            while(!res.next()){
+            while(res.next()){
                 Grad grad = dajGradIzResultSeta(res);
                 rezultat.add(grad);
             }

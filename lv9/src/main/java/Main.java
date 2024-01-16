@@ -6,6 +6,8 @@ public class Main {
     public static String ispisiGradove() {
         GeografijaDAO dao = GeografijaDAO.getInstance();
         String rezultat = "";
+        ArrayList<Grad> gradovi = dao.gradovi();
+        System.out.println("Number of retrieved gradovi: " + gradovi.size());  // Add this line for debugging
         for (Grad grad : dao.gradovi())
             rezultat += grad.getNaziv() + " (" + grad.getDrzava().getNaziv() + ") - " + grad .getBrojStanovnika() + "\n";
         return rezultat;
