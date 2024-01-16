@@ -39,10 +39,18 @@ public class GlavnaController {
     private TableColumn<Grad, Drzava> drzavaColumn;
 
     private final ObservableList<Grad> gradList = FXCollections.observableArrayList();
+    private final ObservableList<Drzava> drzavaList = FXCollections.observableArrayList();
     private final ObjectProperty<Grad> selectedGrad = new SimpleObjectProperty<>();
+    private GeografijaDAO geografijaDAO;
+
+    public GlavnaController() {
+
+    }
 
     @FXML
     private void initialize() {
+        gradList.setAll(GeografijaDAO.getInstance().gradovi());
+        drzavaList.setAll(GeografijaDAO.getInstance().drzave());
         idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
         nazivColumn.setCellValueFactory(cellData -> cellData.getValue().nazivProperty());
         stanovnikaColumn.setCellValueFactory(cellData -> cellData.getValue().brojStanovnikaProperty().asObject());
@@ -52,8 +60,6 @@ public class GlavnaController {
             selectedGrad.set(newValue);
         });
 
-
-        gradList.addAll(Grad.getGradList());
         tableView.setItems(gradList);
     }
 
@@ -76,7 +82,6 @@ public class GlavnaController {
                 stage.setTitle(title);
                 stage.setScene(new Scene(loader.load()));
                 stage.showAndWait();
-                gradList.setAll(Grad.getGradList());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -91,7 +96,6 @@ public class GlavnaController {
                 GradController gradController = loader.getController();
                 gradController.initializeWithGrad(grad); //Popunjavanje gotovim podacima
                 stage.showAndWait();
-                gradList.setAll(Grad.getGradList());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -117,9 +121,7 @@ public class GlavnaController {
         Grad selected = selectedGrad.get();
 
         if (selected != null) {
-            gradList.remove(selected);
-            Grad.getGradList().remove(selected);
-            gradList.setAll(Grad.getGradList());
+
 
         } else {
             // Handle no selection

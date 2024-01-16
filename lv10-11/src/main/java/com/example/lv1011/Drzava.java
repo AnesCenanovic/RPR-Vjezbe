@@ -11,7 +11,6 @@ public class Drzava {
     private final StringProperty naziv = new SimpleStringProperty();
     private final ObjectProperty<Grad> glavniGrad = new SimpleObjectProperty<>();
 
-    private static final List<Drzava> drzavaList = new ArrayList<>();
 
     // Constructors
 
@@ -19,9 +18,6 @@ public class Drzava {
         setId(id);
         setNaziv(naziv);
         setGlavniGrad(glavniGrad);
-        drzavaList.add(this);
-        System.out.println("Dodana");
-        System.out.println(drzavaList.size());
     }
 
     public Drzava() {
@@ -69,9 +65,6 @@ public class Drzava {
         return glavniGrad;
     }
 
-    public static List<Drzava> getDrzavaList() {
-        return drzavaList;
-    }
     @Override
     public String toString() {
         return getNaziv();

@@ -1,6 +1,8 @@
 package com.example.lv1011;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -30,6 +32,7 @@ public class GradController {
     private Button cancelButton;
 
     private Grad grad;
+    private ObservableList<Drzava> drzave = FXCollections.observableArrayList(GeografijaDAO.getInstance().drzave());
 
     public GradController() {
         naziv = new SimpleStringProperty("");
@@ -37,7 +40,7 @@ public class GradController {
     }
 
     public void initialize() {
-        drzavaChoiceBox.getItems().addAll(Drzava.getDrzavaList());
+        drzavaChoiceBox.setItems(drzave);
         drzavaChoiceBox.getSelectionModel().selectFirst();
 
         nazivTextField.textProperty().bindBidirectional(naziv);

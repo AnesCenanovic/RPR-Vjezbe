@@ -12,17 +12,7 @@ public class Grad {
     private final IntegerProperty brojStanovnika = new SimpleIntegerProperty();
     private final ObjectProperty<Drzava> drzava = new SimpleObjectProperty<>();
 
-    private static final List<Grad> gradList = new ArrayList<>();
 
-    static {
-        new Grad(1, "Grad1", 100000, new Drzava(1, "Drzava1", null));
-        new Grad(2, "Grad2", 150000, new Drzava(2, "Drzava2", null));
-        new Grad(3, "Grad3", 250000, new Drzava(3, "Drzava3", null));
-        new Grad(4, "Grad4", 350000, new Drzava(3, "Drzava3", null));
-        new Grad(5, "Grad5", 450000, new Drzava(4, "Drzava4", null));
-
-        // Add more predefined values as needed
-    }
 
     // Constructors
 
@@ -31,9 +21,7 @@ public class Grad {
         setNaziv(naziv);
         setBrojStanovnika(brojStanovnika);
         setDrzava(drzava);
-        gradList.add(this);
-        System.out.println("Dodan");
-        System.out.println(gradList.size());
+
     }
 
     public Grad(){
@@ -91,10 +79,6 @@ public class Grad {
 
     public ObjectProperty<Drzava> drzavaProperty() {
         return drzava;
-    }
-
-    public static List<Grad> getGradList() {
-        return gradList;
     }
 
     @Override
