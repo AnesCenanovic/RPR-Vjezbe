@@ -50,7 +50,7 @@ public class DrzavaController {
         if (!naziv.isEmpty() && selectedGrad != null) {
 
             drzava = new Drzava(1, naziv, selectedGrad);
-
+            GeografijaDAO.getInstance().dodajDrzavu(drzava);
             closeStage();
         } else {
             // Handle invalid input

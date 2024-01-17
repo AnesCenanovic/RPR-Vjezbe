@@ -61,9 +61,11 @@ public class GradController {
                 grad.setNaziv(naziv);
                 grad.setBrojStanovnika(brojStanovnika);
                 grad.setDrzava(selectedDrzava);
+                GeografijaDAO.getInstance().izmijeniGrad(grad);
             } else {
                 // grad is null, so we are adding a new instance
                 grad = new Grad(1, naziv, brojStanovnika, selectedDrzava);
+                GeografijaDAO.getInstance().dodajGrad(grad);
             }
 
             closeStage();

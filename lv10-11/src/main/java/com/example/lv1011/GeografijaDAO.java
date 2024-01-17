@@ -13,7 +13,7 @@ public class GeografijaDAO {
     private Connection conn;
     private PreparedStatement glavniGradUpit, dajDrzavuUpit, obrisiDrzavuUpit, obrisiGradoveZaDrzavu, nadjiDrzavuUpit,
             dajGradoveUpit, dodajGradUpit, odrediIdGradUpit, dodajDrzavuUpit, odrediIdDrzaveUpit, promijeniGradUpit, dajGradUpit,
-            dajDrzaveUpit;
+            dajDrzaveUpit, obrisiGradUpit, obrisiSveGradove, obrisiSveDrzave;
     public static GeografijaDAO getInstance(){
         if(instance==null) instance= new GeografijaDAO();
         return instance;
@@ -48,6 +48,9 @@ public class GeografijaDAO {
             odrediIdDrzaveUpit = conn.prepareStatement("SELECT MAX(id)+1 FROM drzava");
             promijeniGradUpit = conn.prepareStatement("UPDATE grad SET naziv=?, broj_stanovnika=?, drzava=? WHERE id=?");
             dajGradUpit = conn.prepareStatement("SELECT * from grad WHERE id=?");
+            obrisiGradUpit = conn.prepareStatement("DELETE FROM grad WHERE id=?");
+            obrisiSveGradove = conn.prepareStatement("DELETE FROM grad");
+            obrisiSveDrzave = conn.prepareStatement("DELETE FROM drzava");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,12 +178,20 @@ public class GeografijaDAO {
             if(res.next()){
                 id = res.getInt(1);
             }
-            dodajGradUpit.setInt(1,id);
-            dodajGradUpit.setString(2,grad.getNaziv());
-            dodajGradUpit.setInt(3, grad.getBrojStanovnika());
-            dodajGradUpit.setInt(4, grad.getDrzava().getId());
-            dodajGradUpit.executeUpdate();
-
+            if (grad.getDrzava() == null) {
+                dodajGradUpit.setInt(1,id);
+                dodajGradUpit.setString(2,grad.getNaziv());
+                dodajGradUpit.setInt(3, grad.getBrojStanovnika());
+                dodajGradUpit.setInt(4, 0);
+                dodajGradUpit.executeUpdate();
+            }
+            else {
+                dodajGradUpit.setInt(1, id);
+                dodajGradUpit.setString(2, grad.getNaziv());
+                dodajGradUpit.setInt(3, grad.getBrojStanovnika());
+                dodajGradUpit.setInt(4, grad.getDrzava().getId());
+                dodajGradUpit.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -192,10 +203,18 @@ public class GeografijaDAO {
             if(res.next()){
                 id = res.getInt(1);
             }
-            dodajDrzavuUpit.setInt(1,id);
-            dodajDrzavuUpit.setString(2,drzava.getNaziv());
-            dodajDrzavuUpit.setInt(3, drzava.getGlavniGrad().getId());
-            dodajDrzavuUpit.executeUpdate();
+            if (drzava.getGlavniGrad() == null) {
+                dodajGradUpit.setInt(1,id);
+                dodajGradUpit.setString(2,drzava.getNaziv());
+                dodajGradUpit.setInt(3, 0);
+                dodajGradUpit.executeUpdate();
+            }
+            else {
+                dodajDrzavuUpit.setInt(1, id);
+                dodajDrzavuUpit.setString(2, drzava.getNaziv());
+                dodajDrzavuUpit.setInt(3, drzava.getGlavniGrad().getId());
+                dodajDrzavuUpit.executeUpdate();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -237,5 +256,36 @@ public class GeografijaDAO {
             e.printStackTrace();
             return null;
         }
+    }
+    public void obrisiGrad(int gradId){
+        try {
+            obrisiGradUpit.setInt(1, gradId);
+            obrisiGradUpit.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public synchronized void obrisiSveGradove(){
+        try {
+            obrisiSveGradove.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public synchronized void obrisiSveDrzave(){
+        try {
+            obrisiSveDrzave.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public synchronized void preloadGradove(){
+            GeografijaDAO.getInstance().dodajGrad(new Grad(1, "Grad1", 100000, null));
+            GeografijaDAO.getInstance().dodajGrad(new Grad(2, "Grad2", 150000, null));
+    }
+    public synchronized void preloadDrzave(){
+        GeografijaDAO.getInstance().dodajDrzavu(new Drzava(1, "Drzava1", null));
+        GeografijaDAO.getInstance().dodajDrzavu(new Drzava(2, "Drzava2", null));
+
     }
 }

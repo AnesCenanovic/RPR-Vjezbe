@@ -6,10 +6,40 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class Main extends Application {
 
     public static void main(String[] args) {
+        /*initializeDatabase();*/
         launch(args);
+    }
+    private static void initializeDatabase() {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+        Future<?> deleteGrad = executorService.submit(() -> GeografijaDAO.getInstance().obrisiSveGradove());
+        Future<?> deleteDrzava = executorService.submit(() -> GeografijaDAO.getInstance().obrisiSveDrzave());
+        Future<?> preloadGrad = executorService.submit(() -> GeografijaDAO.getInstance().preloadGradove());
+        Future<?> preloadDrzava = executorService.submit(() -> GeografijaDAO.getInstance().preloadDrzave());
+
+        try{
+            deleteGrad.get();
+            deleteDrzava.get();
+            preloadGrad.get();
+            preloadDrzava.get();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            preloadGrad.get();
+            preloadDrzava.get();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        executorService.shutdown();
     }
 
     @Override

@@ -41,7 +41,7 @@ public class GlavnaController {
     private final ObservableList<Grad> gradList = FXCollections.observableArrayList();
     private final ObservableList<Drzava> drzavaList = FXCollections.observableArrayList();
     private final ObjectProperty<Grad> selectedGrad = new SimpleObjectProperty<>();
-    private GeografijaDAO geografijaDAO;
+
 
     public GlavnaController() {
 
@@ -82,6 +82,8 @@ public class GlavnaController {
                 stage.setTitle(title);
                 stage.setScene(new Scene(loader.load()));
                 stage.showAndWait();
+                gradList.setAll(GeografijaDAO.getInstance().gradovi());
+                tableView.setItems(gradList);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,10 +121,9 @@ public class GlavnaController {
     @FXML
     private void handleObrisiGradButtonClick() {
         Grad selected = selectedGrad.get();
-
         if (selected != null) {
-
-
+            GeografijaDAO.getInstance().obrisiGrad(selected.getId());
+            tableView.getItems().remove(selected);
         } else {
             // Handle no selection
         }
